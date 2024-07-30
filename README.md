@@ -8,9 +8,9 @@ Here we will see strategies like:
 - Pessimistic Concurrency Control
 - Hybrid Concurrency Control
 
-And many other specific to each database.
-
 The idea is to explore these strategies in different database and its packages. For example, for `Postgres` we can use `pg` package, but also in `Prisma ORM` and `Sequelize ORM`. I want to make it as a reference for myself and anyone who check this code in terms of, _how to_.
+
+:warning: The code in this repository is still in progress.
 
 ## How to setup
 
