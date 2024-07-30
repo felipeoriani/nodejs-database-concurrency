@@ -1,0 +1,40 @@
+{
+  "name": "nodejs-postgresql-database-concurrencies",
+  "version": "1.0.0",
+  "description": "Sample design project to explore strategies to handle relational database concurrency in NodeJS and Typescript. Created and designed by Felipe Oriani.",
+  "main": "index.js",
+  "repository": "https://github.com/felipeoriani",
+  "author": "Felipe Oriani",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn build && node --env-file=.env .build/src/index.js",
+    "db:pg:reset": "yarn build && node --env-file=.env .build/src/postgres/reset-pg.js",
+    "db:pg:pessimistic": "yarn db:pg:reset && node --env-file=.env .build/src/postgres/pg/pessimistic-concurrency-control.js",
+    "db:pg:optimistic": "yarn db:pg:reset && node --env-file=.env .build/src/postgres/pg/optimistic-concurrency-control.js",
+    "db:pg:hybrid": "yarn db:pg:reset && node --env-file=.env .build/src/postgres/pg/hybrid-concurrency-control.js",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --fix --ext .ts .",
+    "type-check": "yarn build --pretty --noEmit",
+    "prisma:migrate": "yarn prisma migrate dev",
+    "prisma:reset": "prisma migrate reset --force && yarn prisma:seed",
+    "prisma:seed": "node --env-file=.env prisma/seed.js",
+    "docker:build": "docker buildx build --platform linux/amd64 -t tasks-api-nodejs-typescript ."
+  },
+  "dependencies": {
+    "@prisma/client": "^5.17.0",
+    "global": "^4.4.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "@types/pg": "^8.11.6",
+    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/parser": "^7.17.0",
+    "eslint": "^9.7.0",
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
