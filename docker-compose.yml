@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres:16
+    hostname: db
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=bank
+    ports:
+      - '5432:5432'
