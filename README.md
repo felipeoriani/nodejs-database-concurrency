@@ -1,16 +1,14 @@
 # Node.JS Database Concurrency
 
-In this repository, I aim to explore Database Concurrency strategies in different databases including `Postgres`, `MySQL` and `Microsoft SQL Server` using `Node.JS` and `Typescript`.
+In this repository, I aim to explore various _Database Concurrency Strategies_ in different databases including `Postgres`, `MySQL` and `Microsoft SQL Server` using `Node.JS` and `Typescript`. It covers strategies such as:
 
-Here we will see strategies like:
-
-- Optmistic Concurrency Control
+- Optimistic Concurrency Control
 - Pessimistic Concurrency Control
 - Hybrid Concurrency Control
 
-And many other specific to each database.
+The goal is to demonstrate these strategies in different databases and their respective packages. For instance, for `Postgres`, we'll explore implementations using the [`pg`](https://www.npmjs.com/package/pg) package, as well as _ORMs_ like [`Prisma`](https://www.prisma.io/) and [`Sequelize`](https://sequelize.org/). This repository serves as a reference for myself and anyone interested in learning how to apply these concurrency strategies.
 
-The idea is to explore these strategies in different database and its packages. For example, for `Postgres` we can use `pg` package, but also in `Prisma ORM` and `Sequelize ORM`. I want to make it as a reference for myself and anyone who check this code in terms of, _how to_.
+:warning: _The code in this repository is still in progress._
 
 ## How to setup
 
