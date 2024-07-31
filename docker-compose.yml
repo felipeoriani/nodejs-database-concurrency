@@ -1,13 +1,22 @@
 version: '3.5'
 
 services:
-  db:
+  postgres:
     image: postgres:16
-    hostname: db
-    container_name: db
+    hostname: postgres
+    container_name: postgres
     environment:
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=123
-      - POSTGRES_USER=admin
-      - POSTGRES_DB=bank
+      - POSTGRES_DB=db
     ports:
       - '5432:5432'
+  mysql:
+    image: mysql:8
+    hostname: mysql
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=db
+    ports:
+      - '3306:3306'
