@@ -1,10 +1,12 @@
 import { countBusySeats, pool } from './index.js'
 
-/**
- * OPTIMISTIC CONCURRENCY CONTROL
- * In this approach we use the version column to avoid lost updates, but we don't lock the row.
- * This is a useful case when conflicts are rare and we want to avoid the overhead of locking the row since it costs performance and can lead to deadlocks.
- */
+const message = `
+OPTIMISTIC CONCURRENCY CONTROL
+ This is a useful case when conflicts are rare and we want to avoid the overhead of locking the row since it costs performance and can lead to deadlocks.
+ In this approach we use the version column to avoid lost updates, but we don't lock the row.
+`
+
+console.log('Starting the optimistic concurrency control example...')
 
 const result = {
   /**
@@ -46,12 +48,32 @@ await Promise.allSettled(promises)
 // get the number of busy seats.
 result.busy = await countBusySeats()
 
-console.log(JSON.stringify(result, null, 2))
+// show the results in the console.
+console.clear()
+console.log(message)
+
+console.log(`
+Expected Result:
+{
+  "users": ${result.users},
+  "updated": random,
+  "rejected": random,
+  "busy": random
+}`)
+console.log(`
+Process Result:
+${JSON.stringify(result, null, 2)}
+`)
+
+console.log(`
+Considering we have more users than seats, but some users tried to use the same seat at the same time but just the first one got it.
+The others will be rejected because the seat was already updated by another transaction, specially because the version column was updated working like a locker for the record.
+`)
 
 process.exit(0)
 
 /**
- * Try to seat a user.
+ * Try to seat a user using optimistic concurrency control strategy.
  * @param userId User id.
  * @returns Seat id or throw an error if there are no available seats.
  */
