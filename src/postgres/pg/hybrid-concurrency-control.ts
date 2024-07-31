@@ -1,10 +1,11 @@
 import { countBusySeats, pool } from './index.js'
 
-/**
- * HYBRID CONCURRENCY CONTROL
- * In this approach we use a pessimistic concurrency control strategy to avoid multiples users to get the same record by locking the row.
- * Then we also consider the version column from optimistic concurrency control to avoid lost updates.
- */
+const message = `
+HYBRID CONCURRENCY CONTROL
+ In this approach we use a pessimistic concurrency control strategy to avoid multiples users to get the same record by locking the row.
+ Then we also consider the version column from optimistic concurrency control to avoid lost updates with the version column strategy.
+ This is a useful case when conflicts are common and we want to avoid lost updates and deadlocks trying to extract the best from both approaches.
+`
 
 const result = {
   /**
@@ -24,6 +25,8 @@ const result = {
    */
   busy: 0,
 }
+
+console.log('Starting the hybrid concurrency control example...')
 
 // all the users will try to get a seat.
 const promises = []
@@ -46,7 +49,26 @@ await Promise.allSettled(promises)
 // get the number of busy seats.
 result.busy = await countBusySeats()
 
-console.log(JSON.stringify(result, null, 2))
+// show the results in the console.
+console.clear()
+console.log(message)
+console.log(`
+Expected Result:
+{
+  "users": ${result.users},
+  "updated": 1000,
+  "rejected": 200,
+  "busy": 1000
+}`)
+console.log(`
+Process Result:
+${JSON.stringify(result, null, 2)}
+`)
+console.log(`
+Here we have a hybrid strategy using the best of both worlds, pessimistic and optimistic concurrency control.
+We lock the table row with 'FOR UPDATE' to avoid multiple users to get the same record and we also use the version column to avoid lost updates.
+At the end we got a similar result in pessimistic and the guarantee that we won't have lost updates in other scenarios.
+`)
 
 process.exit(0)
 
