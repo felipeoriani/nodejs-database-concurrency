@@ -1,11 +1,12 @@
 import { countBusySeats, pool } from './index.js'
 
-/**
- * PESSIMISTIC CONCURRENCY CONTROL
- * In this approach we use a pessimistic concurrency control strategy to avoid multiples users to get the same record by locking the row.
- * This is a useful case when conflicts are common and we want to avoid lost updates.
- * This approach costs more resources but it can be useful when we have a high rate of conflicts.
- */
+const message = `
+PESSIMISTIC CONCURRENCY CONTROL
+ In this approach we use a pessimistic concurrency control strategy to avoid multiples users to get the same record by locking the row.
+ This is a useful case when conflicts are common and we want to avoid lost updates.
+ This approach costs more resources but it can be useful when we have a high rate of conflicts.
+`
+console.log('Starting the pesimistic concurrency control example...')
 
 const result = {
   /**
@@ -47,12 +48,32 @@ await Promise.allSettled(promises)
 // get the number of busy seats.
 result.busy = await countBusySeats()
 
-console.log(JSON.stringify(result, null, 2))
+// show the results in the console.
+console.clear()
+console.log(message)
+console.log(`
+Expected Result:
+{
+  "users": ${result.users},
+  "updated": 1000,
+  "rejected": 200,
+  "busy": 1000
+}`)
+console.log(`
+Process Result:
+${JSON.stringify(result, null, 2)}
+`)
+
+console.log(`
+Considering we have more users than seats, some users will be rejected because there are no available seats.
+Also the number of busy seats will be equal to the number of updated seats because all the seats were updated.
+The conflicts were managed by the row locking for 'FOR UPDATE' in the SQL query.
+`)
 
 process.exit(0)
 
 /**
- * Try to seat a user.
+ * Try to seat a user using the pessimistic concurrency control strategy.
  * @param userId User id.
  * @returns Seat id or throw an error if there are no available seats.
  */
